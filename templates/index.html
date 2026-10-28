@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NeuroBrasil · Rede Neural do Zero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="shell">
+    <nav><div class="brand"><span class="brand-mark">N</span><span>neuro<span class="accent">brasil</span></span></div><span class="tag">MLP · NUMPY PURO</span></nav>
+    <section class="hero">
+      <div class="eyebrow"><span class="pulse"></span> laboratório de dados brasileiros</div>
+      <h1>Aprendizado que<br><em>nasce do zero.</em></h1>
+      <p class="lead">Uma rede neural construída com NumPy para identificar dias de alta incidência de óbitos por COVID-19 nos estados brasileiros.</p>
+      <button id="trainBtn" class="primary">Treinar a rede <span>→</span></button>
+      <div id="status" class="status">Pronto para iniciar · dados serão carregados sob demanda</div>
+    </section>
+    <section class="dashboard">
+      <div class="panel panel-main"><div class="panel-head"><div><span class="label">DESEMPENHO</span><h2>Resultados do teste</h2><p class="panel-description">Depois de aprender com 80% dos dados, a rede recebe os 20% restantes, que ela nunca viu.</p></div><span id="date" class="date">—</span></div>
+        <div class="metrics">
+          <div class="metric"><span>Acurácia <b class="help">?</b></span><strong id="accuracy">—</strong><small>acertos gerais</small></div>
+          <div class="metric"><span>Precisão <b class="help">?</b></span><strong id="precision">—</strong><small>acertos entre os alertas</small></div>
+          <div class="metric"><span>F1-Score <b class="help">?</b></span><strong id="f1">—</strong><small>equilíbrio entre os dois</small></div>
+        </div>
+        <div class="metric-explanation"><b>Como ler:</b> quanto mais perto de 100%, melhor. A rede está tentando identificar registros com número de óbitos acima do limite de alto risco.</div>
+        <div class="chart-wrap"><div class="chart-title"><span>Perda durante o treinamento <b class="help">?</b></span><span class="legend"><i></i> erro da rede</span></div><canvas id="lossChart"></canvas><div class="chart-caption">A linha deve cair: isso significa que a rede está errando menos a cada época.</div></div>
+      </div>
+      <aside class="panel info"><span class="label">ARQUITETURA</span><h2>Como a rede pensa</h2><p class="panel-description">Os dados entram pela esquerda, passam por camadas de neurônios e saem como uma probabilidade.</p><div class="network"><div class="layer"><b>4</b><small>entradas</small></div><span>→</span><div class="layer active"><b>12</b><small>neurônios<br>ReLU</small></div><span>→</span><div class="layer active"><b>8</b><small>neurônios<br>ReLU</small></div><span>→</span><div class="layer"><b>1</b><small>saída<br>Sigmoid</small></div></div>
+        <div class="architecture-guide"><div><b>4 entradas</b><span>Casos, óbitos e casos ativos do dia anterior + número de dias.</span></div><div><b>12 e 8 neurônios</b><span>Camadas ocultas que encontram padrões nos dados.</span></div><div><b>1 saída</b><span>Probabilidade de ser um dia de alto risco.</span></div></div>
+        <div class="info-row"><span>Taxa de aprendizado</span><b>0.008</b></div><div class="info-row"><span>Épocas</span><b>260</b></div><div class="info-row"><span>Divisão</span><b>80 / 20</b></div><div class="source"><span class="source-icon">◎</span><p><b>Fonte do dataset</b><br>Brasil.IO · COVID-19 Brasil<br><a href="https://github.com/wcota/covid19br" target="_blank">ver repositório →</a></p></div>
+      </aside>
+    </section>
+    <footer><span>PROJETO ACADÊMICO · REDES NEURAIS</span><span id="samples">Aguardando treinamento</span></footer>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
