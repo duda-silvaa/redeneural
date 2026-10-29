@@ -14,23 +14,23 @@
     <section class="hero">
       <div class="eyebrow"><span class="pulse"></span> laboratório de dados brasileiros</div>
       <h1>Aprendizado que<br><em>nasce do zero.</em></h1>
-      <p class="lead">Uma rede neural construída com NumPy para identificar dias de alta incidência de óbitos por COVID-19 nos estados brasileiros.</p>
+      <p class="lead">Este projeto usa dados brasileiros de COVID-19 para aprender a reconhecer dias com muitos óbitos. Você pode ver o resultado do aprendizado abaixo.</p>
       <button id="trainBtn" class="primary">Treinar a rede <span>→</span></button>
       <div id="status" class="status">Pronto para iniciar · dados serão carregados sob demanda</div>
     </section>
     <section class="dashboard">
-      <div class="panel panel-main"><div class="panel-head"><div><span class="label">DESEMPENHO</span><h2>Resultados do teste</h2><p class="panel-description">Depois de aprender com 80% dos dados, a rede recebe os 20% restantes, que ela nunca viu.</p></div><span id="date" class="date">—</span></div>
+      <div class="panel panel-main"><div class="panel-head"><div><span class="label">DESEMPENHO</span><h2>Resultados do teste</h2><p class="panel-description">A rede estudou uma parte dos dados e depois foi testada com registros que ainda não conhecia.</p></div><span id="date" class="date">—</span></div>
         <div class="metrics">
-          <div class="metric"><span>Acurácia <b class="help">?</b></span><strong id="accuracy">—</strong><small>acertos gerais</small></div>
-          <div class="metric"><span>Precisão <b class="help">?</b></span><strong id="precision">—</strong><small>acertos entre os alertas</small></div>
-          <div class="metric"><span>F1-Score <b class="help">?</b></span><strong id="f1">—</strong><small>equilíbrio entre os dois</small></div>
+          <div class="metric"><span>Acurácia <b class="help">?</b></span><strong id="accuracy">—</strong><small>percentual de acertos gerais</small></div>
+          <div class="metric"><span>Precisão <b class="help">?</b></span><strong id="precision">—</strong><small>acertos quando alerta alto risco</small></div>
+          <div class="metric"><span>F1-Score <b class="help">?</b></span><strong id="f1">—</strong><small>equilíbrio entre as métricas</small></div>
         </div>
-        <div class="metric-explanation"><b>Como ler:</b> quanto mais perto de 100%, melhor. A rede está tentando identificar registros com número de óbitos acima do limite de alto risco.</div>
-        <div class="chart-wrap"><div class="chart-title"><span>Perda durante o treinamento <b class="help">?</b></span><span class="legend"><i></i> erro da rede</span></div><canvas id="lossChart"></canvas><div class="chart-caption">A linha deve cair: isso significa que a rede está errando menos a cada época.</div></div>
+        <div class="metric-explanation"><b>Como ler:</b> quanto mais perto de 100%, melhor. Em termos simples, essas métricas mostram quantas vezes a rede acertou e se os alertas de alto risco são confiáveis.</div>
+        <div class="chart-wrap"><div class="chart-title"><span>Loss (perda) durante o treinamento <b class="help">?</b></span><span class="legend"><i></i> erro da rede</span></div><canvas id="lossChart"></canvas><div class="chart-caption">Se a linha desce, a rede está errando menos enquanto aprende.</div></div>
       </div>
-      <aside class="panel info"><span class="label">ARQUITETURA</span><h2>Como a rede pensa</h2><p class="panel-description">Os dados entram pela esquerda, passam por camadas de neurônios e saem como uma probabilidade.</p><div class="network"><div class="layer"><b>4</b><small>entradas</small></div><span>→</span><div class="layer active"><b>12</b><small>neurônios<br>ReLU</small></div><span>→</span><div class="layer active"><b>8</b><small>neurônios<br>ReLU</small></div><span>→</span><div class="layer"><b>1</b><small>saída<br>Sigmoid</small></div></div>
-        <div class="architecture-guide"><div><b>4 entradas</b><span>Casos, óbitos e casos ativos do dia anterior + número de dias.</span></div><div><b>12 e 8 neurônios</b><span>Camadas ocultas que encontram padrões nos dados.</span></div><div><b>1 saída</b><span>Probabilidade de ser um dia de alto risco.</span></div></div>
-        <div class="info-row"><span>Taxa de aprendizado</span><b>0.008</b></div><div class="info-row"><span>Épocas máximas</span><b>260</b></div><div class="info-row"><span>Funções</span><b>ReLU + Sigmoid</b></div><div class="info-row"><span>Perda</span><b>Cross-Entropy</b></div><div class="info-row"><span>Regularização L2</span><b>Disponível</b></div><div class="training-details"><span>Após treinar</span><strong id="trainingDetails">validação · parâmetros</strong></div><div class="source"><span class="source-icon">◎</span><p><b>Fonte do dataset</b><br>Brasil.IO · COVID-19 Brasil<br><a href="https://github.com/wcota/covid19br" target="_blank">ver repositório →</a></p></div>
+      <aside class="panel info"><span class="label">ARQUITETURA DA REDE</span><h2>Como a rede pensa</h2><p class="panel-description">A rede recebe pistas do dia anterior, procura padrões e responde se o dia parece de alto risco.</p><div class="network"><div class="layer"><b>4</b><small>entradas<br>do dataset</small></div><span>→</span><div class="layer active"><b>12</b><small>neurônios<br>ReLU</small></div><span>→</span><div class="layer active"><b>8</b><small>neurônios<br>ReLU</small></div><span>→</span><div class="layer"><b>1</b><small>saída<br>Sigmoid</small></div></div>
+        <div class="architecture-guide"><div><b>Camada de entrada — 4 variáveis</b><span>Casos, óbitos e casos ativos do dia anterior, além da data.</span></div><div><b>Camadas ocultas — 12 e 8 neurônios</b><span>Usam ReLU para encontrar e combinar padrões nos dados.</span></div><div><b>Camada de saída — 1 neurônio</b><span>Usa Sigmoid e entrega uma probabilidade: 0 é risco normal; 1 é possível alto risco.</span></div></div>
+        <div class="info-row"><span>Dados usados</span><b>Brasil</b></div><div class="info-row"><span>Funções de ativação</span><b>ReLU + Sigmoid</b></div><div class="info-row"><span>Função de perda</span><b>Cross-Entropy</b></div><div class="info-row"><span>Épocas máximas</span><b>260</b></div><div class="training-details"><span>Detalhes do treino</span><strong id="trainingDetails">aguardando</strong></div><div class="source"><span class="source-icon">◎</span><p><b>De onde vêm os dados?</b><br>Brasil.IO · COVID-19 Brasil<br><a href="https://github.com/wcota/covid19br" target="_blank">conhecer a fonte →</a></p></div>
       </aside>
     </section>
     <footer><span>PROJETO ACADÊMICO · REDES NEURAIS</span><span id="samples">Aguardando treinamento</span></footer>
