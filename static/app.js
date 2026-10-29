@@ -27,7 +27,8 @@ button.addEventListener('click', async () => {
     const data = await response.json();
     ['accuracy', 'precision', 'f1'].forEach(key => document.querySelector(`#${key}`).textContent = `${(data[key] * 100).toFixed(1)}%`);
     document.querySelector('#date').textContent = `último dado · ${data.latest_date}`;
-    document.querySelector('#samples').textContent = `${data.samples.train.toLocaleString('pt-BR')} treino · ${data.samples.test.toLocaleString('pt-BR')} teste`;
+    document.querySelector('#samples').textContent = `${data.samples.train.toLocaleString('pt-BR')} treino · ${data.samples.validation.toLocaleString('pt-BR')} validação · ${data.samples.test.toLocaleString('pt-BR')} teste`;
+    document.querySelector('#trainingDetails').textContent = `${data.samples.validation.toLocaleString('pt-BR')} validação · ${data.parameters} parâmetros · ${data.epochs_trained} épocas`;
     drawLoss(data.loss); status.textContent = `Concluído · limiar de alto risco: ${data.threshold} óbitos/dia`;
   } catch (error) { status.textContent = 'Não foi possível carregar o dataset. Tente novamente.'; }
   button.disabled = false; button.innerHTML = 'Treinar novamente <span>→</span>';

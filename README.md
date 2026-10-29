@@ -260,6 +260,44 @@ self.weights[index] -= self.learning_rate * gradients_w[index]
 self.biases[index] -= self.learning_rate * gradients_b[index]
 ```
 
+## 5.1. Recursos adicionais inspirados na playlist
+
+Além do fluxo principal usado no dataset, a classe [NeuralNetwork](./neural_network.py) agora reúne os principais conceitos da playlist prática e teórica:
+
+- `relu`, `tanh`, `leaky_relu`, `softplus`, `sigmoid` e `softmax`;
+- derivadas da ReLU e da Tanh para o backpropagation;
+- `binary_cross_entropy` para duas classes;
+- `categorical_cross_entropy` para um futuro problema multiclasse;
+- `mse`, `mae` e `huber` para estudar perdas de regressão;
+- `accuracy`, `confusion_matrix` e `classification_report`;
+- treinamento por mini-batches;
+- acompanhamento de `loss`, `accuracy`, `val_loss` e `val_accuracy`;
+- conjunto de validação separado do teste;
+- parada antecipada (*early stopping*) quando a validação deixa de melhorar;
+- regularização L2 opcional;
+- `parameter_count()` para saber quantos pesos e biases a rede aprendeu;
+- `save()` e `load()` usando `pickle`.
+
+No problema atual, a configuração continua sendo:
+
+```text
+camadas ocultas: ReLU
+saída: Sigmoid
+perda: Binary Cross-Entropy
+```
+
+Isso não é uma escolha aleatória: como existem somente as classes `0` e `1`, Sigmoid com Binary Cross-Entropy é mais adequado do que Softmax com várias saídas. As outras funções ficaram disponíveis para comparação e para futuras atividades.
+
+O treinamento agora possui três partes:
+
+```text
+treino      → ajusta os pesos
+validação   → acompanha se o aprendizado continua melhorando
+teste       → avaliação final, usada somente depois do treinamento
+```
+
+O *early stopping* guarda os melhores pesos encontrados na validação. Assim, se a rede começar a piorar, ela retorna ao melhor ponto em vez de continuar decorando os dados.
+
 ### Taxa de aprendizado
 
 A taxa escolhida foi `0.008`. Ela controla o tamanho de cada ajuste:
